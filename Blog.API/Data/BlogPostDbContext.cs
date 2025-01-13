@@ -5,7 +5,7 @@ namespace Blog.API.Data
 {
     public class BlogPostDbContext : DbContext
     {
-        public BlogPostDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
+        public BlogPostDbContext(DbContextOptions<BlogPostDbContext> dbContextOptions) : base(dbContextOptions)
         {
 
         }
