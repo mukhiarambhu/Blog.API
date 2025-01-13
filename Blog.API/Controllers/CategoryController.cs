@@ -2,6 +2,7 @@
 using Blog.API.Models.Domain;
 using Blog.API.Models.Dto;
 using Blog.API.Repository.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.API.Controllers
@@ -44,6 +45,7 @@ namespace Blog.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> AddCategory(AddCategoryRequestDto addCategoryRequestDto)
         {
             if (ModelState.IsValid)
@@ -62,7 +64,7 @@ namespace Blog.API.Controllers
 
         [HttpPut]
         [Route("{id:guid}")]
-
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> updateEmployees(Guid id, [FromBody] UpdateCategoryRequestDto updateCategoryRequestDto)
         {
 
@@ -78,6 +80,7 @@ namespace Blog.API.Controllers
 
         [HttpDelete]
         [Route("{id:guid}")]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> deleteEmployee([FromRoute] Guid id)
         {
             var category = await categoryRepository.DeleteAsync(id);

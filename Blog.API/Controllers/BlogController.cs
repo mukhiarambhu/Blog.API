@@ -2,6 +2,7 @@
 using Blog.API.Models.Domain;
 using Blog.API.Models.Dto;
 using Blog.API.Repository.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,6 +24,7 @@ namespace Blog.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles ="Writer")]
         public async Task<IActionResult> AddBlogs([FromBody] AddBlogRequestDto addBlogRequestDto)
         {
             if (ModelState.IsValid)
@@ -83,8 +85,10 @@ namespace Blog.API.Controllers
             }
             return Ok(mapper.Map<BlogPostDto>(blog));
         }
+
         [HttpPut]
         [Route("{id:guid}")]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> UpdateCategory([FromRoute] Guid id, [FromBody] UpdateBlogRequest updateBlogRequest)
         {
             var blogEntity = new BlogPost
@@ -116,6 +120,7 @@ namespace Blog.API.Controllers
         }
         [HttpDelete]
         [Route("{id:guid}")]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> Deletecategory([FromRoute] Guid id)
         {
             var blog = await blogPostRepository.DeleteAsync(id);
@@ -124,6 +129,7 @@ namespace Blog.API.Controllers
             }
             return Ok(mapper.Map<BlogPostDto>(blog));
         }
+
         [HttpGet]
         [Route("{urlHandle}")]
 
